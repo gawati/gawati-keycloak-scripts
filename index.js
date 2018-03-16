@@ -2,6 +2,14 @@ var fs = require('fs');
 var fileName = './realm.json';
 var file = require(fileName);
 
+/** 
+This needs some cleanup ... 
+There need to be 3 (or more) input parameters
+
+--new-realm-name=myrealm --input-realm=inputModelRealm.json --output-file=myrealm.json
+
+
+*/
 var clientName = "kenya";
 
 var UId = generateUId();
