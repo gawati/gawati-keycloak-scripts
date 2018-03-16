@@ -1,11 +1,17 @@
 {
-  "name": "gawati-keycloak-scripts",
+  "name": "json",
   "version": "1.0.0",
-  "description": "Script to generate a keycloak realm from a model realm",
+  "description": "",
   "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "fs": "^0.0.1-security",
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Suraj",
-  "license": "agpl-3.0"
+  "author": "",
+  "license": "ISC"
 }

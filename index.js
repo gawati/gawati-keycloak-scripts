@@ -1,16 +1,31 @@
 var fs = require('fs');
-var fileName = './realm.json';
-var file = require(fileName);
+const args = require('yargs').argv;
 
-/** 
-This needs some cleanup ... 
-There need to be 3 (or more) input parameters
+if(args.new_realm_name==undefined){
+	console.log('new_realm_name is not Present in verbose.');
+	return;
+}
 
---new-realm-name=myrealm --input-realm=inputModelRealm.json --output-file=myrealm.json
+if(args.input_realm==undefined){
+	console.log('input_realm is not Present in verbose.');
+	return;
+}
+if(args.output_file==undefined){
+	console.log('output_file is not Present in verbose.');
+	return;
+}   
 
 
-*/
-var clientName = "kenya";
+var fileName = './'+ args.input_realm;
+
+try{
+	var file = require(fileName);
+}catch (e) {
+	console.log('input file is not present');
+	return;
+}
+
+var clientName = args.new_realm_name;
 
 var UId = generateUId();
 
@@ -25,10 +40,10 @@ changeAuthenticatorConfig();
 
 
 
-fs.writeFile(fileName, JSON.stringify(file, null, 2), function (err) {
+fs.writeFile(args.output_file, JSON.stringify(file, null, 2), function (err) {
   if (err) return console.log(err);
   console.log(JSON.stringify(file));
-  console.log('writing to ' + fileName);
+  console.log('writing to ' + args.output_file);
 })
 
 
