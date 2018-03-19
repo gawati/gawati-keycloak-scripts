@@ -32,10 +32,12 @@ var UId = generateUId();
 changeRealm();
 changeRolesRealm();
 changeRolesClient();
+changeGroups();
 changeClients();
 changeComponents();
 changeAuthenticationFlows();
 changeAuthenticatorConfig();
+changeAttributes();
 
 
 
@@ -50,12 +52,15 @@ fs.writeFile(args.output_file, JSON.stringify(file, null, 2), function (err) {
 function changeRealm(){
 	file.id = clientName;
 	file.realm = clientName;
+	file.displayName = displayName();
+	file.displayNameHtml = displayName();
 }
 
 function changeRolesRealm(){
 	if(file.roles.realm!=undefined){
 		for(var i =0; i<file.roles.realm.length; i++){
 			file.roles.realm[i].id = newName(file.roles.realm[i].id);
+			file.roles.realm[i].containerId = clientName;
 		}
 	}
 }
@@ -71,11 +76,40 @@ function changeRolesClient(){
 	}
 }
 
+function changeGroups(){
+	if(file.groups!=undefined){
+		for(var i =0; i<file.groups.length; i++){
+			file.groups[i].id = newName(file.groups[i].id);
+		}
+	}
+}
+
 function changeClients(){
 	if(file.clients!=undefined){
 		for(i=0;i< file.clients.length; i++){
 			file.clients[i].id = newName(file.clients[i].id);
-			
+			if(file.clients[i].clientId=="security-admin-console"){
+				if(file.clients[i].baseUrl!=undefined){
+					file.clients[i].baseUrl = file.clients[i].baseUrl.replace(/admin.*console/, 'admin/'+clientName+'/console');
+				}
+				if(file.clients[i].redirectUris!=undefined){
+					for(var j=0; j<file.clients[i].redirectUris.length; j++){
+						file.clients[i].redirectUris[j] = file.clients[i].redirectUris[j].replace(/admin.*console/, 'admin/'+clientName+'/console');
+					}
+				}
+			}
+
+			if(file.clients[i].clientId=="account"){
+				if(file.clients[i].baseUrl!=undefined){
+					file.clients[i].baseUrl = file.clients[i].baseUrl.replace(/realms.*account/, 'realms/'+clientName+'/account');
+				}
+				if(file.clients[i].redirectUris!=undefined){
+					for(var j=0; j<file.clients[i].redirectUris.length; j++){
+						file.clients[i].redirectUris[j] = file.clients[i].redirectUris[j].replace(/realms.*account/, 'realms/'+clientName+'/account');
+					}
+				}
+			}
+
 			if(file.clients[i].protocolMappers!=undefined){
 				for(j=0;j<file.clients[i].protocolMappers.length;j++){
 					file.clients[i].protocolMappers[j].id = newName(file.clients[i].protocolMappers[j].id);
@@ -128,6 +162,13 @@ function changeAuthenticatorConfig(){
 	}
 }
 
+function changeAttributes(){
+	if(file.attributes!=undefined){
+		file.attributes.displayName = displayName();
+		file.attributes.displayNameHtml = displayName();
+	}
+}
+
 function newName(oldName){
 	var position = getPosition(oldName,'-', 3);
 	var count = (oldName.match(/-/g) || []).length;
@@ -163,4 +204,8 @@ function getPosition(string, subString, index) {
 
 function replaceAt(str, index, replacement) {
     return str.substr(0, index) + replacement+ str.substr(index + replacement.length);
+}
+
+function displayName(){
+	return clientName[0].toUpperCase() + clientName.slice(1);
 }
