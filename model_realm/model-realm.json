@@ -396,6 +396,10 @@
       "clientRoles": {
         "gawati-portal-ui": [
           "portalui.Editor"
+        ],
+        "gawati-client": [
+          "client.Editor",
+          "client.Admin"
         ]
       },
       "subGroups": []
@@ -405,8 +409,20 @@
       "name": "WebRegistered",
       "path": "/WebRegistered",
       "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {},
+      "realmRoles": [
+        "glob.editor",
+        "glob.contentAdmin"
+      ],
+      "clientRoles": {
+        "gawati-portal-ui": [
+          "portalui.Admin",
+          "portalui.Editor"
+        ],
+        "gawati-client": [
+          "client.Editor",
+          "client.Admin"
+        ]
+      },
       "subGroups": []
     }
   ],
@@ -991,6 +1007,26 @@
                 "name": "manage"
               }
             ]
+          },
+          {
+            "name": "group.resource.1fe2c1d1-799b-472a-94bb-5c07ba9404f5",
+            "scopes": [
+              {
+                "name": "manage-members"
+              },
+              {
+                "name": "view"
+              },
+              {
+                "name": "manage-membership"
+              },
+              {
+                "name": "view-members"
+              },
+              {
+                "name": "manage"
+              }
+            ]
           }
         ],
         "policies": [
@@ -1131,6 +1167,56 @@
             "decisionStrategy": "UNANIMOUS",
             "config": {
               "resources": "[\"group.resource.aa1a48e0-c4cb-4178-b65f-fbf271f27834\"]",
+              "scopes": "[\"manage-membership\"]"
+            }
+          },
+          {
+            "name": "manage.permission.group.1fe2c1d1-799b-472a-94bb-5c07ba9404f5",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"group.resource.1fe2c1d1-799b-472a-94bb-5c07ba9404f5\"]",
+              "scopes": "[\"manage\"]"
+            }
+          },
+          {
+            "name": "view.permission.group.1fe2c1d1-799b-472a-94bb-5c07ba9404f5",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"group.resource.1fe2c1d1-799b-472a-94bb-5c07ba9404f5\"]",
+              "scopes": "[\"view\"]"
+            }
+          },
+          {
+            "name": "manage.members.permission.group.1fe2c1d1-799b-472a-94bb-5c07ba9404f5",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"group.resource.1fe2c1d1-799b-472a-94bb-5c07ba9404f5\"]",
+              "scopes": "[\"manage-members\"]"
+            }
+          },
+          {
+            "name": "view.members.permission.group.1fe2c1d1-799b-472a-94bb-5c07ba9404f5",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"group.resource.1fe2c1d1-799b-472a-94bb-5c07ba9404f5\"]",
+              "scopes": "[\"view-members\"]"
+            }
+          },
+          {
+            "name": "manage.membership.permission.group.1fe2c1d1-799b-472a-94bb-5c07ba9404f5",
+            "type": "scope",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"group.resource.1fe2c1d1-799b-472a-94bb-5c07ba9404f5\"]",
               "scopes": "[\"manage-membership\"]"
             }
           }
