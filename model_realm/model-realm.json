@@ -299,6 +299,14 @@
       "admin-cli": [],
       "gawati-portal-ui": [
         {
+          "id": "e1e874ed-7b64-4017-bca7-e60eb2317291",
+          "name": "uma_protection",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true,
+          "containerId": "45baa10d-b6b0-4885-968c-fd702182a53c"
+        },
+        {
           "id": "166cdc01-b1c8-4ac0-b47d-d1e1f1db3eb8",
           "name": "portalui.Admin",
           "scopeParamRequired": false,
@@ -316,6 +324,14 @@
         }
       ],
       "gawati-client": [
+        {
+          "id": "eb52e1d7-713c-49c9-bee9-32a9dafbfc74",
+          "name": "uma_protection",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true,
+          "containerId": "8aa202fc-1899-4aaa-92cc-8595e0a7595c"
+        },
         {
           "id": "8cf5c275-b873-4e27-818f-4da837800341",
           "name": "client.Editor",
@@ -447,6 +463,7 @@
     {
       "id": "8aa202fc-1899-4aaa-92cc-8595e0a7595c",
       "clientId": "gawati-client",
+      "name": "Gawati Client",
       "rootUrl": "https://gawaticlient.akomantoso.com",
       "adminUrl": "https://gawaticlient.akomantoso.com",
       "surrogateAuthRequired": false,
@@ -465,11 +482,23 @@
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
-      "publicClient": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "saml.authnstatement": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "saml.onetimeuse.condition": "false"
+      },
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
@@ -490,6 +519,21 @@
           }
         },
         {
+          "id": "abd46e48-a9d5-49a3-9bf7-f7d312dd63ce",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "consentText": "",
+          "config": {
+            "user.session.note": "clientHost",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "fb84cf3a-1e92-42a9-b5ae-93f9ecfc4375",
           "name": "email",
           "protocol": "openid-connect",
@@ -506,6 +550,21 @@
           }
         },
         {
+          "id": "a430406b-a1ad-4955-9ff0-049bdd2f2fa1",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "consentText": "",
+          "config": {
+            "user.session.note": "clientAddress",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "760c0646-b80f-44ff-8aec-a3e3ae565094",
           "name": "full name",
           "protocol": "openid-connect",
@@ -515,6 +574,21 @@
           "config": {
             "id.token.claim": "true",
             "access.token.claim": "true"
+          }
+        },
+        {
+          "id": "9f3f85d0-3d64-4d8a-ba76-15ab7448baf6",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "consentText": "",
+          "config": {
+            "user.session.note": "clientId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
           }
         },
         {
@@ -564,7 +638,42 @@
       ],
       "useTemplateConfig": false,
       "useTemplateScope": false,
-      "useTemplateMappers": false
+      "useTemplateMappers": false,
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": false,
+        "policyEnforcementMode": "ENFORCING",
+        "resources": [
+          {
+            "name": "Default Resource",
+            "uri": "/*",
+            "type": "urn:gawati-client:resources:default"
+          }
+        ],
+        "policies": [
+          {
+            "name": "Default Policy",
+            "description": "A policy that grants access only for users within this realm",
+            "type": "js",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+              "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+            }
+          },
+          {
+            "name": "Default Permission",
+            "description": "A permission that applies to the default resource type",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "defaultResourceType": "urn:gawati-client:resources:default",
+              "applyPolicies": "[\"Default Policy\"]"
+            }
+          }
+        ],
+        "scopes": []
+      }
     },
     {
       "id": "d8dded9c-ccb4-48eb-842b-05a01c2afb7a",
@@ -1493,17 +1602,18 @@
     {
       "id": "45baa10d-b6b0-4885-968c-fd702182a53c",
       "clientId": "gawati-portal-ui",
-      "rootUrl": "https://lex2.akomantoso.com",
-      "adminUrl": "https://lex2.akomantoso.com",
+      "rootUrl": "https://public.akomantoso.com",
+      "adminUrl": "https://public.akomantoso.com",
+      "baseUrl": "https://public.akomantoso.com",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://lex2.akomantoso.com/*"
+        "https://public.akomantoso.com/*"
       ],
       "webOrigins": [
-        "https://lex2.akomantoso.com"
+        "https://public.akomantoso.com"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1511,11 +1621,23 @@
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
-      "publicClient": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "saml.authnstatement": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "saml.onetimeuse.condition": "false"
+      },
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
@@ -1532,6 +1654,21 @@
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "preferred_username",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "54eeebcd-5d2c-42d5-b8ca-a717c9cac3d4",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "consentText": "",
+          "config": {
+            "user.session.note": "clientHost",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
             "jsonType.label": "String"
           }
         },
@@ -1592,6 +1729,21 @@
           }
         },
         {
+          "id": "555ab977-d292-4e78-a3df-9169005007db",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "consentText": "",
+          "config": {
+            "user.session.note": "clientAddress",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "9cba9e52-d3e3-4a1e-b4fa-8385f5e667b3",
           "name": "given name",
           "protocol": "openid-connect",
@@ -1606,11 +1758,61 @@
             "claim.name": "given_name",
             "jsonType.label": "String"
           }
+        },
+        {
+          "id": "3459cff7-bc02-47b8-97fa-88b418fa5808",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "consentText": "",
+          "config": {
+            "user.session.note": "clientId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
         }
       ],
       "useTemplateConfig": false,
       "useTemplateScope": false,
-      "useTemplateMappers": false
+      "useTemplateMappers": false,
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": false,
+        "policyEnforcementMode": "ENFORCING",
+        "resources": [
+          {
+            "name": "Default Resource",
+            "uri": "/*",
+            "type": "urn:gawati-portal-ui:resources:default"
+          }
+        ],
+        "policies": [
+          {
+            "name": "Default Policy",
+            "description": "A policy that grants access only for users within this realm",
+            "type": "js",
+            "logic": "POSITIVE",
+            "decisionStrategy": "AFFIRMATIVE",
+            "config": {
+              "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+            }
+          },
+          {
+            "name": "Default Permission",
+            "description": "A permission that applies to the default resource type",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "defaultResourceType": "urn:gawati-portal-ui:resources:default",
+              "applyPolicies": "[\"Default Policy\"]"
+            }
+          }
+        ],
+        "scopes": []
+      }
     }
   ],
   "clientTemplates": [],
