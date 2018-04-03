@@ -10,7 +10,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "mkdir build && cp -arv index.js LICENSE build/",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vars": "env | grep npm_package_ | grep -v npm_lifecycle_script"
   },
   "author": "",
   "license": "ISC"
