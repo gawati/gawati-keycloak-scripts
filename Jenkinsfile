@@ -23,14 +23,19 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'npm run build'
+                script {
+                    sh '''
+wget -qO- http://dl.gawati.org/dev/jenkinslib-latest.tbz | tar -xvjf -
+. ./jenkinslib.sh
+makebuild
+'''
+                }
             }
         }
         stage('Upload') {
             steps {
                 script {
                     sh '''
-wget -qO- http://dl.gawati.org/dev/jenkinslib-latest.tbz | tar -xvjf -
 . ./jenkinslib.sh
 cd build
 PkgPack
