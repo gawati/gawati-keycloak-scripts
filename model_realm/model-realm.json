@@ -321,6 +321,22 @@
           "composite": false,
           "clientRole": true,
           "containerId": "45baa10d-b6b0-4885-968c-fd702182a53c"
+        },
+        {
+          "id": "153aeff2-2224-4cd1-b2a4-96498b2a1720",
+          "name": "portalui.User",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true,
+          "containerId": "45baa10d-b6b0-4885-968c-fd702182a53c"
+        },
+        {
+          "id": "97c45540-2196-4edb-bbce-76650aa0d835",
+          "name": "portalui.Guest",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true,
+          "containerId": "45baa10d-b6b0-4885-968c-fd702182a53c"
         }
       ],
       "gawati-client": [
@@ -342,8 +358,32 @@
           "containerId": "8aa202fc-1899-4aaa-92cc-8595e0a7595c"
         },
         {
+          "id": "a30088e4-ad74-4cad-9ad3-bd5a6cb7ab4b",
+          "name": "client.Submitter",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true,
+          "containerId": "8aa202fc-1899-4aaa-92cc-8595e0a7595c"
+        },
+        {
           "id": "615b7974-d17a-4f13-b200-c604e47ec09a",
           "name": "client.Admin",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true,
+          "containerId": "8aa202fc-1899-4aaa-92cc-8595e0a7595c"
+        },
+        {
+          "id": "1bcb0749-2482-4794-b655-abd73852be84",
+          "name": "client.Public",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true,
+          "containerId": "8aa202fc-1899-4aaa-92cc-8595e0a7595c"
+        },
+        {
+          "id": "e777b9a1-0fa9-4cf7-abb4-056d4eccc465",
+          "name": "client.Publisher",
           "scopeParamRequired": false,
           "composite": false,
           "clientRole": true,
@@ -440,6 +480,116 @@
         ]
       },
       "subGroups": []
+    },
+    {
+      "id": "0ab8c1d1-0f66-4829-a0aa-7f5662ad096d",
+      "name": "client.Admins",
+      "path": "/client.Admins",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-client": [
+          "client.Admin",
+          "client.Public"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "9fa272b7-f8e3-4fc0-be1b-800676caac40",
+      "name": "client.Editors",
+      "path": "/client.Editors",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-client": [
+          "client.Editor",
+          "client.Public"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "8d13a09b-1add-4508-bc0f-30015c058bfe",
+      "name": "client.Publics",
+      "path": "/client.Publics",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-client": [
+          "client.Public"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "8540bff5-7bd8-4921-af3f-e84b00189cd7",
+      "name": "client.Publishers",
+      "path": "/client.Publishers",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-client": [
+          "client.Public",
+          "client.Publisher"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "4d845ad4-2244-41e5-9b73-de3fddc2aa9a",
+      "name": "client.Submitters",
+      "path": "/client.Submitters",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-client": [
+          "client.Submitter",
+          "client.Public"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "feccb0a0-d351-42bf-9a56-4ad1d1cc4725",
+      "name": "portalui.Admins",
+      "path": "/portalui.Admins",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-portal-ui": [
+          "portalui.Admin",
+          "portalui.Guest"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "7f56295c-f511-4d03-b6e9-24b55c16dcec",
+      "name": "portalui.Editors",
+      "path": "/portalui.Editors",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-portal-ui": [
+          "portalui.Editor",
+          "portalui.Guest"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "ea8abaf1-49c1-4550-a71f-a132a3514d9f",
+      "name": "portalui.Users",
+      "path": "/portalui.Users",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "gawati-portal-ui": [
+          "portalui.User"
+        ]
+      },
+      "subGroups": []
     }
   ],
   "defaultRoles": [
@@ -464,17 +614,18 @@
       "id": "8aa202fc-1899-4aaa-92cc-8595e0a7595c",
       "clientId": "gawati-client",
       "name": "Gawati Client",
-      "rootUrl": "https://gawaticlient.akomantoso.com",
-      "adminUrl": "https://gawaticlient.akomantoso.com",
+      "rootUrl": "https://client.rooturl",
+      "adminUrl": "https://client.adminurl",
+      "baseUrl": "https://client.baseurl",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://gawaticlient.akomantoso.com/*"
+        "https://client.redirecturl/*"
       ],
       "webOrigins": [
-        "https://gawaticlient.akomantoso.com"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1602,18 +1753,18 @@
     {
       "id": "45baa10d-b6b0-4885-968c-fd702182a53c",
       "clientId": "gawati-portal-ui",
-      "rootUrl": "https://public.akomantoso.com",
-      "adminUrl": "https://public.akomantoso.com",
-      "baseUrl": "https://public.akomantoso.com",
+      "rootUrl": "https://portal.rooturl",
+      "adminUrl": "https://portal.adminurl",
+      "baseUrl": "https://portal.baseurl",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://public.akomantoso.com/*"
+        "https://portal.redirecturl/*"
       ],
       "webOrigins": [
-        "https://public.akomantoso.com"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
