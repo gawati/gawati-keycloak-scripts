@@ -4,9 +4,13 @@ import json
 import uuid
 from pprint import pprint
 
-UIDmap={u'MODEL': u'gawati.org'}
-idTypes=['id', 'containerId']
+realmDNSname='gawati.org'
+realmDisplayName="Gawati"
+
+UIDmap={u'MODEL': realmDNSname}
+UIDnames=['id', 'containerId']
 realm = json.load(open('model_realm/model-realm.json'))
+
 
 def swapIDs(data):
   if (isinstance(data, list)):
@@ -15,7 +19,7 @@ def swapIDs(data):
         swapIDs(item)
     return
 
-  for idType in idTypes:
+  for idType in UIDnames:
     if (idType in data.keys()):
       if not(data[idType] in UIDmap.keys()):
         UIDmap[data[idType]] = str(uuid.uuid4())
@@ -28,7 +32,19 @@ def swapIDs(data):
       #print ('Container: ' + item)
       swapIDs(data[item])
 
-swapIDs(realm) 
+def whereXisYinS_mergeT(X,Y,S,T):
+  for data in (filter(lambda item: item[X] == Y, S)):
+    data.update(T)
+
+
+swapIDs(realm)
+
+realm['realm']=realmDNSname
+realm['displayName']=realmDisplayName
+realm['displayNameHtml']=realmDisplayName
+
+whereXisYinS_mergeT('clientId','security-admin-console',realm["clients"],{'baseUrl': u'/auth/admin/MUAHAHAHAAA/console/index.html'})
+
 #print ('Applied map:')
 #pprint (UIDmap)
 print(json.dumps(realm, sort_keys=True, indent=4, separators=(',', ': ')))
