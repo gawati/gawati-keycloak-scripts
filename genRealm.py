@@ -7,8 +7,9 @@ from pprint import pprint
 realmDNSname='gawati.org'
 realmDisplayName="Gawati"
 
-UIDmap={u'MODEL': realmDNSname}
+UIDmap={'MODEL': realmDNSname}
 UIDnames=['id', 'containerId']
+DATAmap=[['MODEL',realmDNSname]]
 realm = json.load(open('model_realm/model-realm.json'))
 
 
@@ -32,9 +33,31 @@ def swapIDs(data):
       #print ('Container: ' + item)
       swapIDs(data[item])
 
+
+def applyDataMap(S):
+  #print ('Apply data map from :'+S)
+  for [pattern,value] in DATAmap:
+    S=S.replace(pattern,value)
+  #print ('to :'+S)
+  return S
+
+
+def updateURLs(X):
+  if 'baseUrl' in X.keys():
+    X['baseUrl']=applyDataMap(X['baseUrl'])
+
+  if 'redirectUris' in X.keys():
+    X['redirectUris']=list(map(applyDataMap,X['redirectUris']))
+
+
 def whereXisYinS_mergeT(X,Y,S,T):
   for data in (filter(lambda item: item[X] == Y, S)):
     data.update(T)
+
+
+def whereXisYinS_runF(X,Y,S,F):
+  for data in (filter(lambda item: item[X] == Y, S)):
+    F(data)
 
 
 swapIDs(realm)
@@ -43,7 +66,8 @@ realm['realm']=realmDNSname
 realm['displayName']=realmDisplayName
 realm['displayNameHtml']=realmDisplayName
 
-whereXisYinS_mergeT('clientId','security-admin-console',realm["clients"],{'baseUrl': u'/auth/admin/MUAHAHAHAAA/console/index.html'})
+for client in ['security-admin-console','account']:
+  whereXisYinS_runF('clientId',client,realm["clients"],updateURLs)
 
 #print ('Applied map:')
 #pprint (UIDmap)
