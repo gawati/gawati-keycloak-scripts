@@ -92,6 +92,8 @@ swapIDs(realm)
 realm['realm']=realmDNSname
 realm['displayName']=realmDisplayName
 realm['displayNameHtml']=realmDisplayName
+realm['attributes']['displayName']=realmDisplayName
+realm['attributes']['displayNameHtml']=realmDisplayName
 
 for client in ['security-admin-console','account']:
   whereXisYinS_runF('clientId',client,realm["clients"],updateURLs)
