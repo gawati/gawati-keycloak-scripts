@@ -23,8 +23,7 @@ UIDnames=['id', 'containerId']
 DATAmap=[['MODEL',realmDNSname],['client.rooturl',clientURL],['client.baseurl',clientURL],['client.adminurl',clientURL],['client.redirecturl',clientURL],['portal.rooturl',portalURL],['portal.baseurl',portalURL],['portal.adminurl',portalURL],['portal.redirecturl',portalURL]]
 realm = json.load(open('model_realm/model-realm.json'))
 MapClients=['security-admin-console','account','gawati-client','gawati-portal-ui']
-MapFields=['baseUrl','rootUrl','adminUrl','baseUrl']
-MapArrays=['redirectUris']
+MapFields=['baseUrl','redirectUris','rootUrl','adminUrl','baseUrl']
 
 
 def swapIDs(data):
@@ -59,9 +58,15 @@ def applyDataMap(S):
 
 def mapIfPresent(X,S):
   if debug: print ('mapIfPresent >' + X + '<')
+
   if X in S.keys():
     if debug: print ('  is present: mapping')
-    S[X]=applyDataMap(S[X])
+    if (isinstance(S[X], (list))):
+      for i in range(len(S[X])):
+        S[X][i]=applyDataMap(S[X][i])
+    else:
+      S[X]=applyDataMap(S[X])
+
   else:
     if debug: print ('  not present: mapping')
 
@@ -70,10 +75,6 @@ def mapFields(X):
   if debug: print ('mapFields')
   for item in MapFields:
     mapIfPresent(item,X)
-  for array in MapArrays:
-    if array in X.keys():
-      for item in X[array]:
-        applyDataMap(item)
 
 
 def whereXisYinS_mergeT(X,Y,S,T):
