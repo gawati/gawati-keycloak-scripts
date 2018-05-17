@@ -15,12 +15,16 @@ opts, args = optp.parse_args()
 debug=opts.debug
 realmDNSname=opts.realm
 realmDisplayName=opts.name
-
+clientURL='data.dev.'+realmDNSname
+portalURL='dev.'+realmDNSname
 
 UIDmap={'MODEL': realmDNSname}
 UIDnames=['id', 'containerId']
-DATAmap=[['MODEL',realmDNSname]]
+DATAmap=[['MODEL',realmDNSname],['client.rooturl',clientURL],['client.baseurl',clientURL],['client.adminurl',clientURL],['client.redirecturl',clientURL],['portal.rooturl',portalURL],['portal.baseurl',portalURL],['portal.adminurl',portalURL],['portal.redirecturl',portalURL]]
 realm = json.load(open('model_realm/model-realm.json'))
+MapClients=['security-admin-console','account','gawati-client','gawati-portal-ui']
+MapFields=['baseUrl','rootUrl','adminUrl','baseUrl']
+MapArrays=['redirectUris']
 
 
 def swapIDs(data):
@@ -46,29 +50,40 @@ def swapIDs(data):
 
 
 def applyDataMap(S):
-  if debug: print ('Apply data map from :'+S)
+  if debug: print ('Apply data map from >' + S + '<')
   for [pattern,value] in DATAmap:
     S=S.replace(pattern,value)
-  if debug: print ('to :'+S)
+  if debug: print ('to >' + S + '<')
   return S
 
 
-def updateURLs(X):
-  if debug: print ('updateURLs')
-  if 'baseUrl' in X.keys():
-    X['baseUrl']=applyDataMap(X['baseUrl'])
-  if 'redirectUris' in X.keys():
-    X['redirectUris']=list(map(applyDataMap,X['redirectUris']))
+def mapIfPresent(X,S):
+  if debug: print ('mapIfPresent >' + X + '<')
+  if X in S.keys():
+    if debug: print ('  is present: mapping')
+    S[X]=applyDataMap(S[X])
+  else:
+    if debug: print ('  not present: mapping')
+
+
+def mapFields(X):
+  if debug: print ('mapFields')
+  for item in MapFields:
+    mapIfPresent(item,X)
+  for array in MapArrays:
+    if array in X.keys():
+      for item in X[array]:
+        applyDataMap(item)
 
 
 def whereXisYinS_mergeT(X,Y,S,T):
-  if debug: print('whereXisYinS_mergeT')
+  if debug: print('whereXisYinS_mergeT >' + X + '< is >' + Y + '<')
   for data in (filter(lambda item: item[X] == Y, S)):
     data.update(T)
 
 
 def whereXisYinS_runF(X,Y,S,F):
-  if debug: print('whereXisYinS_runF')
+  if debug: print('whereXisYinS_runF >' + X + '< is >' + Y + '<')
   for data in (filter(lambda item: item[X] == Y, S)):
     F(data)
 
@@ -103,8 +118,8 @@ realm['displayNameHtml']=realmDisplayName
 realm['attributes']['displayName']=realmDisplayName
 realm['attributes']['displayNameHtml']=realmDisplayName
 
-for client in ['security-admin-console','account']:
-  whereXisYinS_runF('clientId',client,realm["clients"],updateURLs)
+for client in MapClients:
+  whereXisYinS_runF('clientId',client,realm["clients"],mapFields)
 
 if debug: print('auths')
 for client in realm["clients"]:
@@ -113,3 +128,4 @@ for client in realm["clients"]:
 if debug: print ('Applied map:')
 if debug: pprint (UIDmap)
 print(json.dumps(realm, sort_keys=True, indent=4, separators=(',', ': ')))
+
