@@ -8,15 +8,15 @@ from pprint import pprint
 
 optp = optparse.OptionParser()
 optp.add_option('-d', '--debug', dest='debug', help='print debug messages', action='store_true', default=False)
-optp.add_option('-r', '--realm', dest='realm', help='realm ID (DNS domain name recommended)', default='gawati.org')
+optp.add_option('-r', '--realm', dest='realm', help='realm ID (DNS domain name recommended)', default='dev.gawati.org')
 optp.add_option('-n', '--name', dest='name', help='verbose realm name (as reference name)', default='Gawati')
 opts, args = optp.parse_args()
 
 debug=opts.debug
 realmDNSname=opts.realm
 realmDisplayName=opts.name
-clientURL='data.dev.'+realmDNSname
-portalURL='dev.'+realmDNSname
+clientURL='edit.'+realmDNSname
+portalURL=realmDNSname
 
 UIDmap={'MODEL': realmDNSname}
 UIDnames=['id', 'containerId']
