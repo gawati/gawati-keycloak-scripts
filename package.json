@@ -1,0 +1,18 @@
+{
+  "name": "gawati-kc-realm-generator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Generates KeyCloak Realms from a model JSON exported KeyClock realm",
+  "main": "index.js",
+  "dependencies": {
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vars": "env | grep npm_package_ | grep -v npm_lifecycle_script"
+  },
+  "author": "info@gawati.org",
+  "license": "AGPL-3.0"
+}
